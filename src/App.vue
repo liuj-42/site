@@ -89,7 +89,7 @@ header {
 }
 
 .nomargin {
-  margin: 0 !important; 
+  margin: 0 auto;
 }
 
 
