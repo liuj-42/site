@@ -41,8 +41,9 @@ export default {
   </header>
 
   <header v-if="notes">
-    <RouterLink to="/"><img alt="Vue logo" class="logo clickable" src="@/assets/logo.svg" width="125" height="125"
-        @click="hideNotes()" /></RouterLink>
+    <RouterLink to="/"><img alt="Vue logo" class="logo clickable nomargin" src="@/assets/logo.svg" width="125" height="125"
+        @click="hideNotes()"/></RouterLink>
+    <span class="logo"></span>
 
     <div class="wrapper">
       <div class="greetings">
@@ -67,6 +68,8 @@ export default {
   cursor: pointer;
 }
 
+
+
 #app {
   max-width: 1280px;
   margin: 0 auto;
@@ -84,6 +87,11 @@ header {
   display: block;
   margin: 0 auto 2rem;
 }
+
+.nomargin {
+  margin: 0 !important; 
+}
+
 
 a,
 .green {

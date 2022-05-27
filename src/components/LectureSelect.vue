@@ -10,7 +10,6 @@ import { RouterLink } from 'vue-router';
   </ul>
 
 </div>
-<!-- <div @click="show(2)">debug</div> -->
 
 </template>
 
