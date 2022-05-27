@@ -6,6 +6,21 @@ import { RouterLink, RouterView } from 'vue-router'
 
 </script>
 
+<script>
+export default {
+  methods: {
+    debug (event) {
+      console.log(event);
+    },
+    hide() {
+      this.$emit("hide");
+    },
+    show() {
+      this.$emit("show");
+    }
+  }
+}
+</script>
 <template>
   <WelcomeItem>
     <template #icon>
@@ -22,7 +37,7 @@ import { RouterLink, RouterView } from 'vue-router'
       <EcosystemIcon />
     </template>
     <template #heading>Startpage</template>
-    <RouterLink to="/start">Click here</RouterLink>
+    <RouterLink to="/start" @click="hide()">Click here</RouterLink>
     to go to my startpage.
   </WelcomeItem>
 
