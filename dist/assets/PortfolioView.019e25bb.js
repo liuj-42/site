@@ -1,1 +1,0 @@
-import{_ as t,o,c as s,a as e}from"./index.fc4458da.js";const _={},a={class:"about"},c=e("h1",null,"This is an about page",-1),n=e("p",null,"I will put stuff here about my projects and what I did for them.",-1),r=[c,n];function i(l,d){return o(),s("div",a,r)}var f=t(_,[["render",i]]);export{f as default};

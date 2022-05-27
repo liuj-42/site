@@ -1,1 +1,0 @@
-import{_ as t,o as a,c as s,a as e}from"./index.fc4458da.js";const _={},o={class:"start"},r=e("h1",null,"This is my Startpage",-1),n=e("p",null,"I will move my old startpage here/make a new one",-1),c=[r,n];function i(l,d){return a(),s("div",o,c)}var m=t(_,[["render",i]]);export{m as default};

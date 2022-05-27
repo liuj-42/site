@@ -1,1 +1,0 @@
-import{_ as s,o as t,c as o,a as e}from"./index.fc4458da.js";const _={},n={class:"notes"},a=e("h1",null,"This is my notes page",-1),c=e("p",null,"I will add my opsys notes here",-1),r=[a,c];function i(l,d){return t(),o("div",n,r)}var p=s(_,[["render",i]]);export{p as default};
