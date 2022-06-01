@@ -9,6 +9,7 @@
   "dependencies": {
     "vite": "^2.9.5",
     "vue": "^3.2.33",
+    "vue-markdown": "^2.2.4",
     "vue-markdown-render": "^2.0.0",
     "vue-router": "^4.0.14",
     "vue-select": "^4.0.0-beta.3",

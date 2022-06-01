@@ -2,6 +2,8 @@
 import { RouterLink } from 'vue-router';
 </script>
 
+<!-- TODO: make the dropdown menu remember which lecture has been selected -->
+
 <template>
 <div class="dropdown">
   <span>Select lecture number</span>  <!-- TODO: add a down caret icon-->
@@ -15,12 +17,19 @@ import { RouterLink } from 'vue-router';
 
 <script>
 export default {
+  data() {
+    return {
+      selected: 0,
+    }
+  },
+  mounted() {
+    this.show(this.selected)
+  },
   props: {
     options: Array
   },
   methods: {
     show(id) {
-      console.log(this.$refs.id)
       this.options.forEach(option => {
         if (option != id) {
           this.$refs.option[option-1].classList.remove("active");
@@ -28,6 +37,7 @@ export default {
           this.$refs.option[id-1].classList.add("active");
         }
       })
+      this.$emit("lectureSelect", id);
     }
   }
 }

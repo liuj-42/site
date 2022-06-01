@@ -1,9 +1,44 @@
 <template>
-  <div class="notes">
-    <Markdown :source="source"/>
-
+  
+  <div class="notes" v-if="ready">
+     <template v-for="(lecture, index) in lectures">
+        <Markdown v-if="lecNum==index" :source="lecture"/>
+     </template>
   </div>
 </template>
+
+
+<script>
+import Markdown from 'vue3-markdown-it';
+export default {
+  components: {
+    Markdown
+  },
+  props: {
+    lecNum: {type: Number}
+  },
+  data() {
+    return {
+      lectures: [`# This is where my Opsys notes will be.
+This is another line`, ' # lecture 1', '# lecture 2', `# lecture 3`],
+      ready: true,
+    }
+  },
+  methods: {
+    showLec() {
+      console.log(this.lecNum);
+    },
+    getNotes(num) {
+      this.lectures = ["this is something else"]
+    },
+    changeLecture(num) {
+      this.lecNum = num;
+    }
+  }
+}
+
+</script>
+
 
 <style>
 @media (min-width: 1024px) {
@@ -15,17 +50,3 @@
   }
 }
 </style>
-<script>
-import Markdown from 'vue3-markdown-it';
-export default {
-  components: {
-    Markdown
-  },
-  data() {
-    return {
-      source: '# Hello World!'
-    }
-  }
-}
-
-</script>

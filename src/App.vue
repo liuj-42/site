@@ -1,10 +1,18 @@
 <script>
 export default {
+  mounted() {
+    if (this.$route.name == "home") {
+      this.hideNotes();
+    } else {
+      this.showNotes();
+    }
+  },
   data() {
     return {
       show: true,
       notes: false,
       options: ['1', '2'],
+      lecNum: 0,
     }
   },
   methods: {
@@ -15,6 +23,9 @@ export default {
     hideNotes() {
       this.show = true;
       this.notes = false;
+    },
+    showLecture(num) {
+      this.lecNum = parseInt(num);
     }
   }
 }
@@ -22,6 +33,7 @@ export default {
 
 
 <template>
+
   <header v-if="show">
     <img alt="Vue logo" class="logo" src="@/assets/logo.svg" width="125" height="125" />
 
@@ -41,7 +53,7 @@ export default {
   </header>
 
   <header v-if="notes">
-    <RouterLink to="/"><img alt="Vue logo" class="logo clickable nomargin" src="@/assets/logo.svg" width="125" height="125"
+    <RouterLink to="/"><img alt="Vue logo" class="logo clickable" style="margin: 0 auto" src="@/assets/logo.svg" width="125" height="125"
         @click="hideNotes()"/></RouterLink>
     <span class="logo"></span>
 
@@ -53,22 +65,21 @@ export default {
         </h3>
       </div>
 
-      <LectureSelect :options="[1, 2, 3, 4, 5]"></LectureSelect>
+      <LectureSelect :options="[1, 2, 3, 4, 5]" @lectureSelect="showLecture"></LectureSelect>
 
     </div>
   </header>
 
-  <RouterView @hide="this.show = false" @show="this.show = true" @notes="showNotes()" />
+  <RouterView @hide="this.show = false" @show="this.show = true" @notes="showNotes()" :lecNum="lecNum" />
 </template>
 
 <style>
+
 @import '@/assets/base.css';
 
 .clickable {
   cursor: pointer;
 }
-
-
 
 #app {
   max-width: 1280px;
@@ -88,9 +99,6 @@ header {
   margin: 0 auto 2rem;
 }
 
-.nomargin {
-  margin: 0 auto;
-}
 
 
 a,
@@ -196,7 +204,8 @@ h3 {
 </style>
 
 <script setup>
-import { RouterLink, RouterView } from 'vue-router'
+import { computed } from 'vue'
+import { RouterLink, RouterView, useRoute } from 'vue-router'
 import LectureSelect from './components/LectureSelect.vue';
 
 </script>
