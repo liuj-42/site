@@ -16,6 +16,12 @@ export default {
     }
   },
   methods: {
+    showInfo() {
+      this.show = true;
+    },
+    hideInfo() {
+      this.show = false;
+    },
     showNotes() {
       this.show = false;
       this.notes = true;
@@ -70,7 +76,7 @@ export default {
     </div>
   </header>
 
-  <RouterView @hide="this.show = false" @show="this.show = true" @notes="showNotes()" :lecNum="lecNum" />
+  <RouterView @hide="hideInfo()" @show="showInfo()" @notes="showNotes()" :lecNum="lecNum" />
 </template>
 
 <style>
