@@ -1,7 +1,7 @@
 <template>
   <div class="notes">
-    <h1>This is my notes page</h1>
-    <p>I will add my opsys notes here</p>
+    <Markdown :source="source"/>
+
   </div>
 </template>
 
@@ -15,3 +15,17 @@
   }
 }
 </style>
+<script>
+import Markdown from 'vue3-markdown-it';
+export default {
+  components: {
+    Markdown
+  },
+  data() {
+    return {
+      source: '# Hello World!'
+    }
+  }
+}
+
+</script>
