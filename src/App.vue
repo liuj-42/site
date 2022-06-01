@@ -1,7 +1,7 @@
 <script>
 export default {
   mounted() {
-    if (this.$route.name == "home") {
+    if (this.$route.name != "home") {
       this.hideNotes();
     } else {
       this.showNotes();
