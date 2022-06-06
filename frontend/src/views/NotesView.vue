@@ -2,7 +2,7 @@
   
   <div class="notes" v-if="ready">
      <template v-for="(lecture, index) in lectures">
-        <Markdown v-if="lecNum==index" :source="lecture"/>
+        <Markdown v-if="lecNum==index" :source="lecture" />
      </template>
   </div>
 </template>
@@ -10,6 +10,9 @@
 
 <script>
 import Markdown from 'vue3-markdown-it';
+// import 'highlight.js/styles/monkai.css';
+
+
 export default {
   components: {
     Markdown
@@ -22,6 +25,11 @@ export default {
       lectures: [`# This is where my Opsys notes will be.
 This is another line`, ' # lecture 1', '# lecture 2', `# lecture 3`],
       ready: true,
+      plugins : [
+        {
+          plugin: 'markdown-it-highlightjs',
+        }
+      ],
     }
   },
   methods: {
@@ -41,6 +49,9 @@ This is another line`, ' # lecture 1', '# lecture 2', `# lecture 3`],
 
 
 <style>
+@import '../../node_modules/highlight.js/styles/monokai.css';
+
+
 @media (min-width: 1024px) {
   .notes {
     min-height: 100vh;
