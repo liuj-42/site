@@ -11,11 +11,18 @@
 <script>
 import Markdown from 'vue3-markdown-it';
 // import 'highlight.js/styles/monkai.css';
+import axios from 'axios';
 
 
 export default {
   components: {
     Markdown
+  },
+  mounted() {
+    axios
+      .get('https://api.coindesk.com/v1/bpi/currentprice.json')
+      .then( response => console.log(response) )
+
   },
   props: {
     lecNum: {type: Number}
