@@ -3,7 +3,8 @@
   <div class="notes" v-if="ready">
      <template v-for="(lecture, index) in lectures">
         <Markdown v-show="lecNum==index" :source="lecture" />
-        <!-- <p v-show="lecNum==index" >lecture {{index}}</p> -->
+        <!-- <p v-show="lecNum==index" >lecture {{index}}</p>
+        <p>{{lecture}}</p> -->
      </template>
   </div>
 </template>
@@ -19,39 +20,52 @@ export default {
   components: {
     Markdown
   },
-  mounted() {
+  async mounted() {
     let lectureNumbers = [];
-    axios
-      .get( "https://liuj-42.herokuapp.com/lectures" )
-      .then( ( lectures ) =>  {
-        lectures = lectures.data;
-        // console.log(lectures)
-        // console.log( `there are ${lectures.length} lectures` )
-        lectures.forEach( ( lecture ) => {
-          console.log( lecture );
-          lectureNumbers.push( lecture );
-          axios
-            .get( `https://liuj-42.herokuapp.com/lectures/${lecture}` )
-            .then( ( content ) => {
-              this.lectures.push(content);
-            });
 
-        });
-        this.lecNum = lectures.length;
-        // console.log( lectureNumbers );
-        // console.log( JSON.stringify( lectureNumbers ) );
-        this.$emit( "gotLectures", lectureNumbers );
+    let lectures = await axios.get( "https://liuj-42.herokuapp.com/lectures" );
+    // console.log(lectures.data)
+    lectures.data.forEach( async ( lectureNum ) => {
+      lectureNumbers.push( lectureNum);
+      let content = await axios.get( `https://liuj-42.herokuapp.com/lectures/${lectureNum}` );
+      console.log("content: " );
+      console.log( content );
+      this.lectures.push(content.data[0])
+    })
+    this.ready = true;
 
-      })
-      console.log("emitting")
+    // await axios
+    //   .get( "https://liuj-42.herokuapp.com/lectures" )
+    //   .then( ( lectures ) =>  {
+    //     lectures = lectures.data;
+    //     // console.log(lectures)
+    //     // console.log( `there are ${lectures.length} lectures` )
+    //     lectures.forEach( ( lecture ) => {
+    //       lectureNumbers.push( lecture );
+    //        axios
+    //         .get( `https://liuj-42.herokuapp.com/lectures/${lecture}` )
+    //         .then( ( content ) => {
+    //           console.log(content.data)
+    //           this.lectures.push(content.data[0]);
+    //           console.log(this.lectures)
+    //         });
 
-      this.$emit( "gotLectures" );
+    //     });
+    //     this.lecNum = lectures.length;
+    //     // console.log( lectureNumbers );
+    //     // console.log( JSON.stringify( lectureNumbers ) );
+    //     this.$emit( "gotLectures", lectureNumbers );
+
+    //   })
+    //   // console.log("emitting")
+    //   console.log("content:")
+    //   console.log(this.lectures)
 
   },
   data() {
     return {
       lectures: [`# This is where my Opsys notes will be.`],
-      ready: true,
+      ready: false,
       lecNum: 1,
       plugins : [
         {

@@ -38,6 +38,7 @@ export default {
         }
       })
       this.$emit("lectureSelect", id);
+      console.log("showing lecture number " + id)
     }
   }
 }

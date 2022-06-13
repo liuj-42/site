@@ -37,7 +37,7 @@ export default {
       console.log("got lectures")
       console.log( lectureNumbers );
 
-      // this.options = lectureNumbers;
+      this.options = lectureNumbers;
       
       // this.options = JSON.parse( lectureNumbers );
     },
