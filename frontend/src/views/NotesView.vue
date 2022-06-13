@@ -2,7 +2,8 @@
   
   <div class="notes" v-if="ready">
      <template v-for="(lecture, index) in lectures">
-        <Markdown v-if="lecNum==index" :source="lecture" />
+        <Markdown v-show="lecNum==index" :source="lecture" />
+        <!-- <p v-show="lecNum==index" >lecture {{index}}</p> -->
      </template>
   </div>
 </template>
@@ -19,19 +20,39 @@ export default {
     Markdown
   },
   mounted() {
+    let lectureNumbers = [];
     axios
-      .get('https://api.coindesk.com/v1/bpi/currentprice.json')
-      .then( response => console.log(response) )
+      .get( "https://liuj-42.herokuapp.com/lectures" )
+      .then( ( lectures ) =>  {
+        lectures = lectures.data;
+        // console.log(lectures)
+        // console.log( `there are ${lectures.length} lectures` )
+        lectures.forEach( ( lecture ) => {
+          console.log( lecture );
+          lectureNumbers.push( lecture );
+          axios
+            .get( `https://liuj-42.herokuapp.com/lectures/${lecture}` )
+            .then( ( content ) => {
+              this.lectures.push(content);
+            });
 
-  },
-  props: {
-    lecNum: {type: Number}
+        });
+        this.lecNum = lectures.length;
+        // console.log( lectureNumbers );
+        // console.log( JSON.stringify( lectureNumbers ) );
+        this.$emit( "gotLectures", lectureNumbers );
+
+      })
+      console.log("emitting")
+
+      this.$emit( "gotLectures" );
+
   },
   data() {
     return {
-      lectures: [`# This is where my Opsys notes will be.
-This is another line`, ' # lecture 1', '# lecture 2', `# lecture 3`],
+      lectures: [`# This is where my Opsys notes will be.`],
       ready: true,
+      lecNum: 1,
       plugins : [
         {
           plugin: 'markdown-it-highlightjs',

@@ -11,7 +11,7 @@ export default {
     return {
       show: true,
       notes: false,
-      options: ['1', '2'],
+      options: [1],
       lecNum: 0,
     }
   },
@@ -32,6 +32,17 @@ export default {
     },
     showLecture(num) {
       this.lecNum = parseInt(num);
+    },
+    gotLectures(lectureNumbers) {
+      console.log("got lectures")
+      console.log( lectureNumbers );
+
+      // this.options = lectureNumbers;
+      
+      // this.options = JSON.parse( lectureNumbers );
+    },
+    test() {
+      console.log("yeah")
     }
   }
 }
@@ -71,12 +82,12 @@ export default {
         </h3>
       </div>
 
-      <LectureSelect :options="[1, 2, 3, 4, 5]" @lectureSelect="showLecture"></LectureSelect>
+      <LectureSelect :options="options" @lectureSelect="showLecture"></LectureSelect>
 
     </div>
   </header>
 
-  <RouterView @hide="hideInfo()" @show="showInfo()" @notes="showNotes()" :lecNum="lecNum" />
+  <RouterView @hide="hideInfo()" @show="showInfo()" @notes="showNotes()" :lecNum="lecNum" @gotLectures="gotLectures" @test="test()" />
 </template>
 
 <style>
