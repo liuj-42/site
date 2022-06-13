@@ -14,7 +14,9 @@ app.use(function(req, res, next) {
     next();
   });
 
-app.listen(process.env.PORT || 5000);
+app.listen(process.env.PORT || 5000, () => {
+    console.log(`server up on https://localhost:${process.env.PORT || 5000}`);
+});
 
 
 
@@ -22,35 +24,21 @@ app.listen(process.env.PORT || 5000);
 app.get('/', (req, res) => { res.send('hi bri') })
 
 app.get('/lectures', async (req, res) => {
-    console.log(getDirectories('data/lectures'));
-    res.status(200).send(getDirectories('data/lectures'));
+    const files = fs.readdirSync('data/lectures');
+    console.log(files);
+    res.status(200).send(files)
 });
 
 
 
 
-app.get('/lectures/:num', (req, res) => {
-    const num = req.params.num;
-    // res.send(`you selected lecture #${num}`);
-    const files = fs.readdirSync(`data/lectures/${num}`);
-    let arr = [];
-    files.forEach(file => {
-        const data = fs.readFileSync(`data/lectures/${num}/${file}`, 'utf8');
-        console.log(data)
-        arr.push(data);
-    })
-    res.status(200).send(arr);
+app.get('/lectures/:name', (req, res) => {
+    const name = req.params.name;
+    const files = fs.readdirSync(`data/lectures`);
+    const data = fs.readFileSync(`data/lectures/${name}`)
+    res.status(200).send(data);
 
 
-    // files.forEach(file => {
-    //     fs.readFileSync('data/lectures', 'utf8', (err, data) => {
-    //         if (err) {
-    //           console.error(err);
-    //           return;
-    //         }
-    //         console.log(data);
-    //       });
-    // })
 });
 
 function getDirectories(path) {
