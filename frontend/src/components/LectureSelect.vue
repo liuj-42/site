@@ -6,9 +6,11 @@ import { RouterLink } from 'vue-router';
 
 <template>
 <div class="dropdown">
-  <span>Select lecture number</span>  <!-- TODO: add a down caret icon-->
+  <span @click="test()">Select lecture number</span>  <!-- TODO: add a down caret icon-->
   <ul class="nostyle dropdown-select">
-    <li v-for="option in options" class="dropdown-item" :id=option ref=option  @click="show(option)">{{option}}</li>
+    <li v-for="option in options" class="dropdown-item" :id="option" ref="option" @click="show(option)">
+      {{option}}
+    </li>
   </ul>
 
 </div>
@@ -26,19 +28,27 @@ export default {
     this.show(this.selected)
   },
   props: {
-    options: Array
+    'options' : Array
   },
+  // watch: {
+  //   options: () => { works
+  //     console.log("options has changed")
+  //   }
+  // },
   methods: {
+    test() {
+      console.log(this.options)
+    },
     show(id) {
+      console.log("showing lecture number " + id);
       this.options.forEach(option => {
         if (option != id) {
-          this.$refs.option[option-1].classList.remove("active");
+          this.$refs.option[this.options.indexOf(option)].classList.remove("active");
         } else {
-          this.$refs.option[id-1].classList.add("active");
+          this.$refs.option[this.options.indexOf(option)].classList.add("active");
         }
       })
       this.$emit("lectureSelect", id);
-      console.log("showing lecture number " + id)
     }
   }
 }

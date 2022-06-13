@@ -2,10 +2,13 @@
   
   <div class="notes" v-if="ready">
      <template v-for="(lecture, index) in lectures">
-        <Markdown v-show="lecNum==index" :source="lecture" />
+        <Markdown v-show="lecNum==lectureNumbers[index-1]" :source="lecture" />
         <!-- <p v-show="lecNum==index" >lecture {{index}}</p>
         <p>{{lecture}}</p> -->
      </template>
+  </div>
+  <div class="notes" v-else>
+    <Markdown source="# This is where my Opsys notes will be." />
   </div>
 </template>
 
@@ -17,56 +20,37 @@ import axios from 'axios';
 
 
 export default {
+  props: {
+    'lecNum': Number
+  },
+  watch: {
+    lecNum: function (newValue, oldValue) {
+      // console.log(`new: ${newValue}\told: ${oldValue}`)
+      this.ready = true;
+    }
+  },
   components: {
     Markdown
   },
-  async mounted() {
-    let lectureNumbers = [];
+  async mounted() { 
 
+    // <!-- TODO: rewrite how the data is stored to make it into an object instead -->
+    this.lectureNumbers = [];
     let lectures = await axios.get( "https://liuj-42.herokuapp.com/lectures" );
-    // console.log(lectures.data)
     lectures.data.forEach( async ( lectureNum ) => {
-      lectureNumbers.push( lectureNum);
+      this.lectureNumbers.push( lectureNum.slice( 0, -3 ) );
       let content = await axios.get( `https://liuj-42.herokuapp.com/lectures/${lectureNum}` );
-      console.log("content: " );
-      console.log( content );
-      this.lectures.push(content.data[0])
+      this.lectures.push(content.data)
     })
-    this.ready = true;
-
-    // await axios
-    //   .get( "https://liuj-42.herokuapp.com/lectures" )
-    //   .then( ( lectures ) =>  {
-    //     lectures = lectures.data;
-    //     // console.log(lectures)
-    //     // console.log( `there are ${lectures.length} lectures` )
-    //     lectures.forEach( ( lecture ) => {
-    //       lectureNumbers.push( lecture );
-    //        axios
-    //         .get( `https://liuj-42.herokuapp.com/lectures/${lecture}` )
-    //         .then( ( content ) => {
-    //           console.log(content.data)
-    //           this.lectures.push(content.data[0]);
-    //           console.log(this.lectures)
-    //         });
-
-    //     });
-    //     this.lecNum = lectures.length;
-    //     // console.log( lectureNumbers );
-    //     // console.log( JSON.stringify( lectureNumbers ) );
-    //     this.$emit( "gotLectures", lectureNumbers );
-
-    //   })
-    //   // console.log("emitting")
-    //   console.log("content:")
-    //   console.log(this.lectures)
-
+    // this.ready = true;
+    this.$emit( "gotLectures", [2, 3, 4, 5] );
+    
   },
   data() {
     return {
       lectures: [`# This is where my Opsys notes will be.`],
       ready: false,
-      lecNum: 1,
+      lectureNumbers: [0],
       plugins : [
         {
           plugin: 'markdown-it-highlightjs',

@@ -11,8 +11,9 @@ export default {
     return {
       show: true,
       notes: false,
-      options: [1],
+      options: ["1"],
       lecNum: 0,
+      gotData: false,
     }
   },
   methods: {
@@ -31,15 +32,17 @@ export default {
       this.notes = false;
     },
     showLecture(num) {
+      // console.log(`old: ${this.lecNum}\tnew: ${num}`);
       this.lecNum = parseInt(num);
     },
     gotLectures(lectureNumbers) {
-      console.log("got lectures")
-      console.log( lectureNumbers );
+      // console.log("got lectures")
+      // console.log( lectureNumbers );
+      // console.log(this.options)
 
       this.options = lectureNumbers;
-      
-      // this.options = JSON.parse( lectureNumbers );
+      this.gotData = true;
+      // console.log(this.options)
     },
     test() {
       console.log("yeah")
@@ -51,7 +54,7 @@ export default {
 
 <template>
 
-  <header v-if="show">
+  <header v-if="show" class="sticky">
     <img alt="Vue logo" class="logo" src="@/assets/logo.svg" width="125" height="125" />
 
     <div class="wrapper">
@@ -69,7 +72,7 @@ export default {
     </div>
   </header>
 
-  <header v-if="notes">
+  <header v-if="notes" class="sticky">
     <RouterLink to="/"><img alt="Vue logo" class="logo clickable" style="margin: 0 auto" src="@/assets/logo.svg" width="125" height="125"
         @click="hideNotes()"/></RouterLink>
     <span class="logo"></span>
@@ -82,12 +85,19 @@ export default {
         </h3>
       </div>
 
-      <LectureSelect :options="options" @lectureSelect="showLecture"></LectureSelect>
+      <LectureSelect v-if="gotData" :options="options" @lectureSelect="showLecture" ></LectureSelect>
 
     </div>
   </header>
 
-  <RouterView @hide="hideInfo()" @show="showInfo()" @notes="showNotes()" :lecNum="lecNum" @gotLectures="gotLectures" @test="test()" />
+  <RouterView 
+    @hide="hideInfo()" 
+    @show="showInfo()" 
+    @notes="showNotes()" 
+    :lecNum="lecNum" 
+    @gotLectures="gotLectures"  
+    v-if="options"
+  />
 </template>
 
 <style>
@@ -196,6 +206,12 @@ nav a:first-of-type {
 </style>
 <style scoped>
 @import "../node_modules/vue-select/dist/vue-select.css";
+
+.sticky {
+  position: sticky;
+  top: 0;
+}
+
 h1 {
   font-weight: 500;
   font-size: 2.6rem;
